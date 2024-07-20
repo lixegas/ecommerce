@@ -11,9 +11,4 @@
     </parent>
 
     <artifactId>core</artifactId>
-
-    <properties>
-        <java.version>22</java.version>
-    </properties>
-
 </project>

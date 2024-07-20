@@ -38,4 +38,3 @@ public class Credentials {
     @OneToMany(mappedBy = "credentials", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RefreshToken> refreshTokens = new ArrayList<>();
 }
-    // Getters and setters..}

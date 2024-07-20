@@ -19,7 +19,7 @@ public class CredentialService implements UserDetailsService {
     private final CredentialsRepository credentialsRepository;
 
 
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Credentials> userAccountOptional = credentialsRepository.findByEmail(email);
         if (userAccountOptional.isEmpty()) {
             String errorMessage = String.format("User with email %s not found", email);
@@ -28,10 +28,5 @@ public class CredentialService implements UserDetailsService {
 
         Credentials userAccount = userAccountOptional.get();
         return new User(userAccount.getEmail(), userAccount.getPassword(), new ArrayList<>());
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
     }
 }

@@ -1,14 +1,17 @@
 server:
+  port: 2504
   error:
     include-stacktrace: never
     include-message: always
     include-binding-errors: always
 
 spring:
+  application:
+    name: auth
   datasource:
     url: jdbc:mysql://localhost:3306/auth
     username: root
-    password: Ciaomondo123
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

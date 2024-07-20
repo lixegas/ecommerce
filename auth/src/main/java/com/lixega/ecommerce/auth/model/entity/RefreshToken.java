@@ -32,6 +32,4 @@ public class RefreshToken {
     @ManyToOne
     @JoinColumn(name = "credentials_id", nullable = false)
     private Credentials credentials;
-
-    // Getters and setters...
 }

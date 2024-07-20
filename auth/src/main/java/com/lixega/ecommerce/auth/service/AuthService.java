@@ -52,10 +52,18 @@ public class AuthService {
 
 
     public RegistrationResponse register(RegistrationRequest request) {
-        checkForValidEmail(request.getEmail());
-        checkForValidPassword(request.getPassword());
-        checkForUserWithSamePassword(request.getPassword());
-        checkForUserWithSameEmail(request.getEmail());
+        if (!isEmailValid(request.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email provided");
+        }
+
+        if(!isPasswordValid(request.getPassword())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters long.");
+        };
+
+        if(checkForUserWithSameEmail(request.getEmail())){
+            String errorMessage = String.format("User with email %s already exists", request.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
+        };
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         Credentials registeredCredentials = credentialsRepository.save(credentialsMapper.mapToCredentials(request));
@@ -63,37 +71,19 @@ public class AuthService {
         return credentialsMapper.mapToRegistrationResponse(registeredCredentials);
     }
 
-
-
-    private void checkForUserWithSamePassword(String password){
-        boolean userWithSameUsernameExists = credentialsRepository.findByPassword(password).isPresent();
-        if(userWithSameUsernameExists) {
-            String errorMessage = String.format("User with password %s already exists", password);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
-        }
+    private boolean checkForUserWithSameEmail(String email){
+        return credentialsRepository.findByEmail(email).isPresent();
     }
 
-    private void checkForUserWithSameEmail(String email){
-        boolean userWithSameUsernameExists = credentialsRepository.findByEmail(email).isPresent();
-        if(userWithSameUsernameExists) {
-            String errorMessage = String.format("User with email %s already exists", email);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
-        }
-    }
-
-    private void checkForValidEmail(String email){
+    private boolean isEmailValid(String email){
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
 
-        if(!matcher.matches()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email provided");
-        }
+        return matcher.matches();
     }
 
-    private void checkForValidPassword(String password){
-        if(password.isBlank() || password.length() < 6){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters long.");
-        }
+    private boolean isPasswordValid(String password){
+        return !password.isBlank() && password.length() >= 6;
     }
 }
