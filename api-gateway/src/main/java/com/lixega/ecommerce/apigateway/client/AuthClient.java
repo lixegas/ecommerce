@@ -1,4 +1,4 @@
-package com.lixega.ecommerce.bff.client;
+package com.lixega.ecommerce.apigateway.client;
 
 import com.lixega.ecommerce.sdk.security.model.dto.request.JwtValidationRequest;
 import com.lixega.ecommerce.sdk.security.model.dto.response.JwtValidationResponse;

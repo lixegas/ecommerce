@@ -1,13 +1,11 @@
 package com.lixega.ecommerce.auth.controller;
 
-
-
 import com.lixega.ecommerce.auth.model.dto.request.LoginRequest;
-import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequestDTO;
-import com.lixega.ecommerce.auth.model.dto.request.RegistrationRequest;
+import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequest;
+import com.lixega.ecommerce.auth.model.dto.request.UserRegistrationRequest;
 import com.lixega.ecommerce.auth.model.dto.request.ValidationTokenRequest;
 import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
-import com.lixega.ecommerce.auth.model.dto.response.RegistrationResponse;
+import com.lixega.ecommerce.auth.model.dto.response.UserRegistrationResponse;
 import com.lixega.ecommerce.auth.model.dto.response.ValidationTokenResponse;
 import com.lixega.ecommerce.auth.service.AuthService;
 import com.lixega.ecommerce.auth.service.RefreshTokenService;
@@ -16,9 +14,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
-
-//TODO: implementation validation token
 @RestController
 @RequestMapping("api/v1/auth")
 @AllArgsConstructor
@@ -33,12 +28,12 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public RegistrationResponse register(@Valid @RequestBody RegistrationRequest request) {
+    public UserRegistrationResponse register(@Valid @RequestBody UserRegistrationRequest request) {
         return authService.register(request);
     }
 
     @PostMapping("refresh")
-    public JWTResponse refresh(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO){
+    public JWTResponse refresh(@RequestBody RefreshTokenRequest refreshTokenRequestDTO){
         return refreshTokenService.refreshToken(refreshTokenRequestDTO);
     }
 

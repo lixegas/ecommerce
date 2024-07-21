@@ -17,6 +17,9 @@
 
     <name>ecommerce-parent</name>
     <description>Parent POM for Lixega's ecommerce</description>
+    <modules>
+        <module>user</module>
+    </modules>
 
     <properties>
         <java.version>22</java.version>
@@ -38,6 +41,17 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Utils -->
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -1,17 +1,19 @@
 package com.lixega.ecommerce.auth.service;
 
 import com.lixega.ecommerce.auth.config.JWTUtils;
-import com.lixega.ecommerce.auth.model.mapper.CredentialsMapper;
+import com.lixega.ecommerce.auth.model.dto.request.UserRegistrationRequest;
+import com.lixega.ecommerce.auth.model.mapper.UserMapper;
 import com.lixega.ecommerce.auth.model.entity.User;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
 import com.lixega.ecommerce.auth.model.dto.request.LoginRequest;
-import com.lixega.ecommerce.auth.model.dto.request.RegistrationRequest;
 import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
-import com.lixega.ecommerce.auth.model.dto.response.RegistrationResponse;
+import com.lixega.ecommerce.auth.model.dto.response.UserRegistrationResponse;
 import com.lixega.ecommerce.auth.repository.UserRepository;
+import com.lixega.ecommerce.sdk.core.model.dto.UserProfileCreationRequest;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,12 +28,17 @@ import java.util.regex.Pattern;
 @Service
 @AllArgsConstructor
 public class AuthService {
-    private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-    private final CredentialsMapper credentialsMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final KafkaTemplate<String, UserProfileCreationRequest> userProfileCreationRequestKafkaTemplate;
+
     private final RefreshTokenService refreshTokenService;
+    private final AuthenticationManager authenticationManager;
+
+    private final UserRepository userRepository;
+
     private final JWTUtils jwtUtils;
+    private final PasswordEncoder passwordEncoder;
+
+    private final UserMapper userMapper;
 
     public JWTResponse login(LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
@@ -47,7 +54,7 @@ public class AuthService {
         return new JWTResponse(accessToken, refreshToken);
     }
 
-    public RegistrationResponse register(RegistrationRequest request) {
+    public UserRegistrationResponse register(UserRegistrationRequest request) {
         if (!isEmailValid(request.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email provided");
         }
@@ -62,9 +69,12 @@ public class AuthService {
         };
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
-        User registeredUser = userRepository.save(credentialsMapper.mapToCredentials(request));
+        User registeredUser = userRepository.save(userMapper.mapToUser(request));
 
-        return credentialsMapper.mapToRegistrationResponse(registeredUser);
+        UserProfileCreationRequest userProfileCreationRequest = userMapper.mapToProfileCreationRequest(registeredUser, request);
+        userProfileCreationRequestKafkaTemplate.send("user-profile-creation", userProfileCreationRequest);
+
+        return userMapper.mapToRegistrationResponse(registeredUser);
     }
 
     private boolean checkForUserWithSameEmail(String email){

@@ -1,5 +1,5 @@
 server:
-  port: 2504
+  port: 1703
   error:
     include-stacktrace: never
     include-message: always
@@ -19,8 +19,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   kafka:
-    producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      properties:
+        spring.json.trusted.packages: "*"
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
 security:
   refresh-token:

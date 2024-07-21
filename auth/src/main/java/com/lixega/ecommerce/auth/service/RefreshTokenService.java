@@ -3,11 +3,10 @@ package com.lixega.ecommerce.auth.service;
 import com.lixega.ecommerce.auth.config.JWTUtils;
 import com.lixega.ecommerce.auth.model.entity.User;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
-import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequestDTO;
+import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequest;
 import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
 import com.lixega.ecommerce.auth.repository.UserRepository;
 import com.lixega.ecommerce.auth.repository.RefreshTokenRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -49,8 +48,8 @@ public class RefreshTokenService {
         }
     }
 
-    public JWTResponse refreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO) {
-        Optional<RefreshToken> tokenOptional = findByToken(refreshTokenRequestDTO.getRefreshToken());
+    public JWTResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        Optional<RefreshToken> tokenOptional = findByToken(refreshTokenRequest.getRefreshToken());
         if (tokenOptional.isEmpty())
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid refresh tokenOptional provided");
 

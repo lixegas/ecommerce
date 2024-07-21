@@ -11,7 +11,7 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationResponse {
+public class UserRegistrationResponse {
     private String email;
     private String password;
     private Instant createdAt;

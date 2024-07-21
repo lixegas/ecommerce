@@ -1,10 +1,10 @@
-package com.lixega.ecommerce.bff;
+package com.lixega.ecommerce.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BffApplicationTests {
+class ApiGatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
