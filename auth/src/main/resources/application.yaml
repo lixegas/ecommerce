@@ -8,10 +8,9 @@ server:
 spring:
   application:
     name: auth
+  profiles:
+    active: dev
   datasource:
-    url: jdbc:mysql://localhost:3307/auth
-    username: root
-    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -19,6 +18,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+security:
+  refresh-token:
+    expiration-millis: 600000
+  jwt:
+    expiration-millis: 300000
 
 rsa:
   private-key: "classpath:certs/private.pem"

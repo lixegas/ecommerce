@@ -1,6 +1,9 @@
+server:
+  port: 1703
+
 spring:
   application:
-    name: bff
+    name: api-gateway
 
 feign:
     auth:

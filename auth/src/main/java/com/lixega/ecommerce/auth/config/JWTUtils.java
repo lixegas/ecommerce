@@ -4,19 +4,21 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.Date;
 
-@Component
-@AllArgsConstructor
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class JWTUtils {
+    @Value("${security.jwt.expiration-millis}")
+    private Long jwtExpirationMillis;
 
     private final RSAKeyProperties rsaKeyProperties;
-    private static final long jwtExpirationMillis = 300000;
-
 
     public String getSubject(String jwt) {
         JwtParser jwtParser =
@@ -41,5 +43,4 @@ public class JWTUtils {
                 .expiration(Date.from(Instant.now().plusMillis(jwtExpirationMillis)))
                 .compact();
     }
-
 }

@@ -8,6 +8,8 @@ import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
 import com.lixega.ecommerce.auth.repository.UserRepository;
 import com.lixega.ecommerce.auth.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,11 +18,11 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RefreshTokenService {
-
+    @Value("${security.refresh-token.expiration-millis}")
+    private Long jwtExpirationInMillis;
 
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -32,11 +34,10 @@ public class RefreshTokenService {
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(credentialsOptional.get())
                 .token(UUID.randomUUID().toString())
-                .expiryDate(Instant.now().plusMillis(600000)) // set expiry of refresh token to 10 minutes - you can configure it application.properties file
+                .expiryDate(Instant.now().plusMillis(jwtExpirationInMillis))
                 .build();
         return refreshTokenRepository.save(refreshToken);
     }
-
 
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
@@ -44,7 +45,7 @@ public class RefreshTokenService {
 
     public void verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
-            throw new RuntimeException(token.getToken() + " Refresh token is expired. Please make a new login..!");
+            throw new RuntimeException(STR."\{token.getToken()} Refresh token is expired. Please make a new login!");
         }
     }
 

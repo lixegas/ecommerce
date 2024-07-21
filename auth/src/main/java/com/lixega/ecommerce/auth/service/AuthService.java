@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 @Service
 @AllArgsConstructor
 public class AuthService {
-
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final CredentialsMapper credentialsMapper;
@@ -34,9 +33,7 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
     private final JWTUtils jwtUtils;
 
-
     public JWTResponse login(LoginRequest loginRequest) {
-
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
@@ -49,8 +46,6 @@ public class AuthService {
 
         return new JWTResponse(accessToken, refreshToken);
     }
-
-
 
     public RegistrationResponse register(RegistrationRequest request) {
         if (!isEmailValid(request.getEmail())) {

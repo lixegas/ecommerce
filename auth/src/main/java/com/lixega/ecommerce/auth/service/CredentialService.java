@@ -14,9 +14,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class CredentialService implements UserDetailsService {
-
     private final UserRepository userRepository;
-
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> userAccountOptional = userRepository.findByEmail(email);

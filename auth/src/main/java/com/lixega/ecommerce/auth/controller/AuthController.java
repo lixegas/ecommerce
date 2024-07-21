@@ -23,19 +23,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/auth")
 @AllArgsConstructor
 public class AuthController {
-
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
     private final ValidationTokenService validationTokenService;
-
-
-
 
     @PostMapping("login")
     public JWTResponse login(@RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
-
 
     @PostMapping("register")
     public RegistrationResponse register(@Valid @RequestBody RegistrationRequest request) {
@@ -51,6 +46,4 @@ public class AuthController {
     public ValidationTokenResponse validate(@RequestBody ValidationTokenRequest request){
         return validationTokenService.validateToken(request);
     }
-
-
 }
