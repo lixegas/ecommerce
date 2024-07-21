@@ -2,13 +2,13 @@ package com.lixega.ecommerce.auth.service;
 
 import com.lixega.ecommerce.auth.config.JWTUtils;
 import com.lixega.ecommerce.auth.model.mapper.CredentialsMapper;
-import com.lixega.ecommerce.auth.model.entity.Credentials;
+import com.lixega.ecommerce.auth.model.entity.User;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
 import com.lixega.ecommerce.auth.model.dto.request.LoginRequest;
 import com.lixega.ecommerce.auth.model.dto.request.RegistrationRequest;
 import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
 import com.lixega.ecommerce.auth.model.dto.response.RegistrationResponse;
-import com.lixega.ecommerce.auth.repository.CredentialsRepository;
+import com.lixega.ecommerce.auth.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final CredentialsRepository credentialsRepository;
+    private final UserRepository userRepository;
     private final CredentialsMapper credentialsMapper;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenService refreshTokenService;
@@ -51,6 +51,7 @@ public class AuthService {
     }
 
 
+
     public RegistrationResponse register(RegistrationRequest request) {
         if (!isEmailValid(request.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email provided");
@@ -66,13 +67,13 @@ public class AuthService {
         };
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
-        Credentials registeredCredentials = credentialsRepository.save(credentialsMapper.mapToCredentials(request));
+        User registeredUser = userRepository.save(credentialsMapper.mapToCredentials(request));
 
-        return credentialsMapper.mapToRegistrationResponse(registeredCredentials);
+        return credentialsMapper.mapToRegistrationResponse(registeredUser);
     }
 
     private boolean checkForUserWithSameEmail(String email){
-        return credentialsRepository.findByEmail(email).isPresent();
+        return userRepository.findByEmail(email).isPresent();
     }
 
     private boolean isEmailValid(String email){

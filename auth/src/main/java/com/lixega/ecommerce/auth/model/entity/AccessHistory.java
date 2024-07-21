@@ -22,5 +22,5 @@ public class AccessHistory {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Credentials user;
+    private User user;
 }

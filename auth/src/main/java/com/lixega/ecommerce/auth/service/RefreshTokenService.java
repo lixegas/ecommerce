@@ -1,11 +1,11 @@
 package com.lixega.ecommerce.auth.service;
 
 import com.lixega.ecommerce.auth.config.JWTUtils;
-import com.lixega.ecommerce.auth.model.entity.Credentials;
+import com.lixega.ecommerce.auth.model.entity.User;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
 import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequestDTO;
 import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
-import com.lixega.ecommerce.auth.repository.CredentialsRepository;
+import com.lixega.ecommerce.auth.repository.UserRepository;
 import com.lixega.ecommerce.auth.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,15 +22,15 @@ import java.util.UUID;
 public class RefreshTokenService {
 
 
-    private final CredentialsRepository credentialsRepository;
+    private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JWTUtils jwtUtils;
 
     public RefreshToken createRefreshToken(String email) {
-        Optional<Credentials> credentialsOptional = credentialsRepository.findByEmail(email);
+        Optional<User> credentialsOptional = userRepository.findByEmail(email);
         if (credentialsOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user does not exist.");
         RefreshToken refreshToken = RefreshToken.builder()
-                .credentials(credentialsOptional.get())
+                .user(credentialsOptional.get())
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(600000)) // set expiry of refresh token to 10 minutes - you can configure it application.properties file
                 .build();
@@ -57,11 +57,11 @@ public class RefreshTokenService {
         refreshTokenRepository.delete(token);
         verifyExpiration(token);
 
-        Credentials userCredentials = token.getCredentials();
-        RefreshToken refreshTokenObj = createRefreshToken(userCredentials.getEmail());
+        User userUser = token.getUser();
+        RefreshToken refreshTokenObj = createRefreshToken(userUser.getEmail());
 
         String refreshToken = refreshTokenObj.getToken();
-        String jwt = jwtUtils.generateTokenWithEmail(userCredentials.getEmail());
+        String jwt = jwtUtils.generateTokenWithEmail(userUser.getEmail());
 
         return new JWTResponse(jwt, refreshToken);
     }
