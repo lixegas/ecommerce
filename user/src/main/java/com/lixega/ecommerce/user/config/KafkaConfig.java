@@ -16,13 +16,13 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic topic(){
-        return TopicBuilder.name("user-profile-creation")
+        return TopicBuilder.name("ecommerce-user-creation")
                 .partitions(10)
                 .replicas(1)
                 .build();
     }
 
-    @KafkaListener(id = "userProfileCreationId", topics = "user-profile-creation")
+    @KafkaListener(id = "userProfileCreation", topics = "ecommerce-user-creation")
     public void listenForUserProfileCreation(UserProfileCreationRequest request){
         userProfileService.createUserProfile(request);
     }

@@ -72,7 +72,7 @@ public class AuthService {
         User registeredUser = userRepository.save(userMapper.mapToUser(request));
 
         UserProfileCreationRequest userProfileCreationRequest = userMapper.mapToProfileCreationRequest(registeredUser, request);
-        userProfileCreationRequestKafkaTemplate.send("user-profile-creation", userProfileCreationRequest);
+        userProfileCreationRequestKafkaTemplate.send("ecommerce-user-creation", userProfileCreationRequest);
 
         return userMapper.mapToRegistrationResponse(registeredUser);
     }
