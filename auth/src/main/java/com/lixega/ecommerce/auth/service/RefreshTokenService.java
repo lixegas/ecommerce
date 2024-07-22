@@ -44,7 +44,8 @@ public class RefreshTokenService {
 
     public void verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
-            throw new RuntimeException(STR."\{token.getToken()} Refresh token is expired. Please make a new login!");
+            String errorMessage = String.format("%s! Red. Please make a new login!", token);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, errorMessage );
         }
     }
 

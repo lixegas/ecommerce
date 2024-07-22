@@ -12,7 +12,7 @@ import org.mapstruct.Named;
 
 import java.time.Instant;
 
-@Named("CredentialsMapper")
+@Named("UserMapper")
 @Mapper(imports = Instant.class, componentModel = "spring")
 public interface UserMapper {
 

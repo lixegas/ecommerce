@@ -7,7 +7,7 @@ server:
 
 spring:
   application:
-    name: auth
+    name: user
   profiles:
     active: dev
   datasource:
@@ -30,6 +30,3 @@ security:
   jwt:
     expiration-millis: 300000
 
-rsa:
-  private-key: "classpath:certs/private.pem"
-  public-key: "classpath:certs/public.pem"
