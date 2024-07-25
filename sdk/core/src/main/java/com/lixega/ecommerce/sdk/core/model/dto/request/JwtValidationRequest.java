@@ -1,4 +1,4 @@
-package com.lixega.ecommerce.sdk.security.model.dto.request;
+package com.lixega.ecommerce.sdk.core.model.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

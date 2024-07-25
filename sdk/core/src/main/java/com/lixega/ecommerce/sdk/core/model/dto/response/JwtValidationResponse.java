@@ -1,17 +1,19 @@
-package com.lixega.ecommerce.sdk.security.model.dto.response;
+package com.lixega.ecommerce.sdk.core.model.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtValidationResponse {
     private Long userId;
-    private String email;
     private String jwt;
-    private Instant expiredAt;
+
+    List<String> roles = new ArrayList<>();
 }

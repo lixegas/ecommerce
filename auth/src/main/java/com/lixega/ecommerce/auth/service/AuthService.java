@@ -2,14 +2,14 @@ package com.lixega.ecommerce.auth.service;
 
 import com.lixega.ecommerce.auth.config.JWTUtils;
 import com.lixega.ecommerce.auth.model.dto.request.UserRegistrationRequest;
+import com.lixega.ecommerce.auth.model.entity.UserCredentials;
 import com.lixega.ecommerce.auth.model.mapper.UserMapper;
-import com.lixega.ecommerce.auth.model.entity.User;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
 import com.lixega.ecommerce.auth.model.dto.request.LoginRequest;
 import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
 import com.lixega.ecommerce.auth.model.dto.response.UserRegistrationResponse;
 import com.lixega.ecommerce.auth.repository.UserRepository;
-import com.lixega.ecommerce.sdk.core.model.dto.UserProfileCreationRequest;
+import com.lixega.ecommerce.sdk.core.model.dto.request.UserProfileCreationRequest;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -69,12 +69,12 @@ public class AuthService {
         };
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
-        User registeredUser = userRepository.save(userMapper.mapToUser(request));
+        UserCredentials registeredUserCredentials = userRepository.save(userMapper.mapToUser(request));
 
-        UserProfileCreationRequest userProfileCreationRequest = userMapper.mapToProfileCreationRequest(registeredUser, request);
+        UserProfileCreationRequest userProfileCreationRequest = userMapper.mapToProfileCreationRequest(registeredUserCredentials, request);
         userProfileCreationRequestKafkaTemplate.send("ecommerce-user-creation", userProfileCreationRequest);
 
-        return userMapper.mapToRegistrationResponse(registeredUser);
+        return userMapper.mapToRegistrationResponse(registeredUserCredentials);
     }
 
     private boolean checkForUserWithSameEmail(String email){

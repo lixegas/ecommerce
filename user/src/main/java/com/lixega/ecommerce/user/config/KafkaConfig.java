@@ -1,6 +1,6 @@
 package com.lixega.ecommerce.user.config;
 
-import com.lixega.ecommerce.sdk.core.model.dto.UserProfileCreationRequest;
+import com.lixega.ecommerce.sdk.core.model.dto.request.UserProfileCreationRequest;
 import com.lixega.ecommerce.user.service.UserProfileService;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;

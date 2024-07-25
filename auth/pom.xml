@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.lixega.ecommerce</groupId>
-        <artifactId>ecommerce-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <artifactId>auth</artifactId>
@@ -17,8 +18,14 @@
     <description>Auth service for Lixega's e-commerce</description>
 
     <properties>
+        <java.version>22</java.version>
+
         <!-- Jwt -->
         <io.jsonwebtoken.version>0.12.3</io.jsonwebtoken.version>
+
+        <!-- Utils -->
+        <org.mapstruct.version>1.6.0.Beta1</org.mapstruct.version>
+        <org.lombok-mapstruct-binding.version>0.2.0</org.lombok-mapstruct-binding.version>
 
         <!-- Sdk -->
         <sdk.version>0.0.1-SNAPSHOT</sdk.version>
@@ -44,6 +51,13 @@
                 <artifactId>jjwt-impl</artifactId>
                 <version>${io.jsonwebtoken.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+
+            <!-- Utils -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
             </dependency>
 
             <!-- Sdk -->
@@ -97,6 +111,16 @@
             <artifactId>jjwt-impl</artifactId>
         </dependency>
 
+        <!-- Utils -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+
         <!-- Sdk -->
         <dependency>
             <groupId>com.lixega.ecommerce</groupId>
@@ -111,4 +135,47 @@
             <artifactId>kafka</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <dependency>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${org.lombok-mapstruct-binding.version}</version>
+                            </dependency>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+                            <compilerArg>
+                                -Amapstruct.defaultComponentModel=spring
+                            </compilerArg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,6 +1,6 @@
 package com.lixega.ecommerce.apigateway;
 
-import com.lixega.ecommerce.sdk.security.model.SdkSecurityConfig;
+import com.lixega.ecommerce.sdk.security.SdkSecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;

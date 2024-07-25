@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_credentials")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class User {
+public class UserCredentials {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +35,6 @@ public class User {
     private Instant createdAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userCredentials", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RefreshToken> refreshTokens = new ArrayList<>();
 }

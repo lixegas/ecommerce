@@ -1,6 +1,6 @@
 package com.lixega.ecommerce.user.service;
 
-import com.lixega.ecommerce.sdk.core.model.dto.UserProfileCreationRequest;
+import com.lixega.ecommerce.sdk.core.model.dto.request.UserProfileCreationRequest;
 import com.lixega.ecommerce.user.mapper.UserProfileMapper;
 import com.lixega.ecommerce.user.model.entity.UserProfile;
 import com.lixega.ecommerce.user.repository.UserProfileRepository;

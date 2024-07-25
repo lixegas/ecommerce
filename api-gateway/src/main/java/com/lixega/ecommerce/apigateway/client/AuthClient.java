@@ -1,7 +1,7 @@
 package com.lixega.ecommerce.apigateway.client;
 
-import com.lixega.ecommerce.sdk.security.model.dto.request.JwtValidationRequest;
-import com.lixega.ecommerce.sdk.security.model.dto.response.JwtValidationResponse;
+import com.lixega.ecommerce.sdk.core.model.dto.request.JwtValidationRequest;
+import com.lixega.ecommerce.sdk.core.model.dto.response.JwtValidationResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

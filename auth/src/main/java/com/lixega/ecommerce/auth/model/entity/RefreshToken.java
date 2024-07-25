@@ -29,6 +29,6 @@ public class RefreshToken {
 
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_credentials", nullable = false)
+    private UserCredentials userCredentials;
 }

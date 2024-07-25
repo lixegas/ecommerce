@@ -1,10 +1,10 @@
 package com.lixega.ecommerce.auth.model.mapper;
 
 
-import com.lixega.ecommerce.auth.model.entity.User;
+import com.lixega.ecommerce.auth.model.entity.UserCredentials;
 import com.lixega.ecommerce.auth.model.dto.request.UserRegistrationRequest;
 import com.lixega.ecommerce.auth.model.dto.response.UserRegistrationResponse;
-import com.lixega.ecommerce.sdk.core.model.dto.UserProfileCreationRequest;
+import com.lixega.ecommerce.sdk.core.model.dto.request.UserProfileCreationRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -19,17 +19,17 @@ public interface UserMapper {
 
     // Mappa RegistrationRequest a Credentials
     @Mapping(target = "createdAt", expression = "java(java.time.Instant.now())")
-    User mapToUser(UserRegistrationRequest request);
+    UserCredentials mapToUser(UserRegistrationRequest request);
 
     // Mappa Credentials a RegistrationResponse
     @Mapping(source = "createdAt", target = "createdAt")
-    UserRegistrationResponse mapToRegistrationResponse(User user);
+    UserRegistrationResponse mapToRegistrationResponse(UserCredentials userCredentials);
 
     @Mappings({
-            @Mapping(target = "id", source = "user.id"),
+            @Mapping(target = "id", source = "userCredentials.id"),
             @Mapping(target = "firstName", source = "request.firstName"),
             @Mapping(target = "lastName", source = "request.lastName")
     })
-    UserProfileCreationRequest mapToProfileCreationRequest(User user, UserRegistrationRequest request);
+    UserProfileCreationRequest mapToProfileCreationRequest(UserCredentials userCredentials, UserRegistrationRequest request);
 }
 

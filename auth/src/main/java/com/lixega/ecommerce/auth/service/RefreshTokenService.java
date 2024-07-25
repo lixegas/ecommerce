@@ -1,7 +1,7 @@
 package com.lixega.ecommerce.auth.service;
 
 import com.lixega.ecommerce.auth.config.JWTUtils;
-import com.lixega.ecommerce.auth.model.entity.User;
+import com.lixega.ecommerce.auth.model.entity.UserCredentials;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
 import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequest;
 import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
@@ -28,10 +28,10 @@ public class RefreshTokenService {
     private final JWTUtils jwtUtils;
 
     public RefreshToken createRefreshToken(String email) {
-        Optional<User> credentialsOptional = userRepository.findByEmail(email);
+        Optional<UserCredentials> credentialsOptional = userRepository.findByEmail(email);
         if (credentialsOptional.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user does not exist.");
         RefreshToken refreshToken = RefreshToken.builder()
-                .user(credentialsOptional.get())
+                .userCredentials(credentialsOptional.get())
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(jwtExpirationInMillis))
                 .build();
@@ -58,11 +58,11 @@ public class RefreshTokenService {
         refreshTokenRepository.delete(token);
         verifyExpiration(token);
 
-        User userUser = token.getUser();
-        RefreshToken refreshTokenObj = createRefreshToken(userUser.getEmail());
+        UserCredentials userUserCredentials = token.getUserCredentials();
+        RefreshToken refreshTokenObj = createRefreshToken(userUserCredentials.getEmail());
 
         String refreshToken = refreshTokenObj.getToken();
-        String jwt = jwtUtils.generateTokenWithEmail(userUser.getEmail());
+        String jwt = jwtUtils.generateTokenWithEmail(userUserCredentials.getEmail());
 
         return new JWTResponse(jwt, refreshToken);
     }
