@@ -28,7 +28,8 @@ public interface UserMapper {
     @Mappings({
             @Mapping(target = "id", source = "userCredentials.id"),
             @Mapping(target = "firstName", source = "request.firstName"),
-            @Mapping(target = "lastName", source = "request.lastName")
+            @Mapping(target = "lastName", source = "request.lastName"),
+            @Mapping(target = "phoneNumber", source = "userCredentials.phoneNumber")
     })
     UserProfileCreationRequest mapToProfileCreationRequest(UserCredentials userCredentials, UserRegistrationRequest request);
 }

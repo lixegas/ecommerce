@@ -22,7 +22,4 @@ public class UserProfile {
     private String firstName;
     @Column
     private String lastName;
-
-    @Column
-    private String phoneNumber;
 }

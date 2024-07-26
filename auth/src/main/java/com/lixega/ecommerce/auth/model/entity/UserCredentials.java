@@ -25,11 +25,14 @@ public class UserCredentials {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
+
+    @Column
+    private String phoneNumber;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;

@@ -4,7 +4,8 @@ import com.lixega.ecommerce.auth.model.dto.request.LoginRequest;
 import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequest;
 import com.lixega.ecommerce.auth.model.dto.request.UserRegistrationRequest;
 import com.lixega.ecommerce.auth.model.dto.request.ValidationTokenRequest;
-import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
+import com.lixega.ecommerce.auth.model.dto.response.LoginResponse;
+import com.lixega.ecommerce.auth.model.dto.response.RefreshResponse;
 import com.lixega.ecommerce.auth.model.dto.response.UserRegistrationResponse;
 import com.lixega.ecommerce.auth.model.dto.response.ValidationTokenResponse;
 import com.lixega.ecommerce.auth.service.AuthService;
@@ -23,7 +24,7 @@ public class AuthController {
     private final ValidationTokenService validationTokenService;
 
     @PostMapping("login")
-    public JWTResponse login(@RequestBody LoginRequest loginRequest) {
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
 
@@ -33,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("refresh")
-    public JWTResponse refresh(@RequestBody RefreshTokenRequest refreshTokenRequestDTO){
+    public RefreshResponse refresh(@RequestBody RefreshTokenRequest refreshTokenRequestDTO){
         return refreshTokenService.refreshToken(refreshTokenRequestDTO);
     }
 

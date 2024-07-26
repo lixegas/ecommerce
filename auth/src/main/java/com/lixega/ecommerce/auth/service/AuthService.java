@@ -6,7 +6,7 @@ import com.lixega.ecommerce.auth.model.entity.UserCredentials;
 import com.lixega.ecommerce.auth.model.mapper.UserMapper;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
 import com.lixega.ecommerce.auth.model.dto.request.LoginRequest;
-import com.lixega.ecommerce.auth.model.dto.response.JWTResponse;
+import com.lixega.ecommerce.auth.model.dto.response.LoginResponse;
 import com.lixega.ecommerce.auth.model.dto.response.UserRegistrationResponse;
 import com.lixega.ecommerce.auth.repository.UserRepository;
 import com.lixega.ecommerce.sdk.core.model.dto.request.UserProfileCreationRequest;
@@ -40,7 +40,7 @@ public class AuthService {
 
     private final UserMapper userMapper;
 
-    public JWTResponse login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
@@ -48,10 +48,10 @@ public class AuthService {
 
         String accessToken = jwtUtils.generateTokenWithEmail(loginRequest.getEmail());
 
-        RefreshToken refreshTokenObj = refreshTokenService.createRefreshToken(loginRequest.getEmail());
+        RefreshToken refreshTokenObj = refreshTokenService.createRefreshToken(loginRequest.getEmail(),90);
         String refreshToken = refreshTokenObj.getToken();
 
-        return new JWTResponse(accessToken, refreshToken);
+        return new LoginResponse(accessToken, refreshToken);
     }
 
     public UserRegistrationResponse register(UserRegistrationRequest request) {

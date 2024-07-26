@@ -23,6 +23,14 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  cloud:
+    openfeign:
+      client:
+        config:
+          user-client:
+            url: http://localhost:2504/api/v1/credentials
+
+
 
 security:
   refresh-token:
