@@ -1,6 +1,6 @@
 package com.lixega.ecommerce.auth.controller;
 
-import com.lixega.ecommerce.auth.model.dto.response.CredentialsResponse;
+import com.lixega.ecommerce.sdk.core.model.dto.CredentialsDTO;
 import com.lixega.ecommerce.auth.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class CredentialsController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public CredentialsResponse credentials (@PathVariable Long id){
+    public CredentialsDTO credentials (@PathVariable Long id){
         return userService.getCredentialsById(id);
     }
 }

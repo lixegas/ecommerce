@@ -1,4 +1,4 @@
-package com.lixega.ecommerce.auth.model.dto.response;
+package com.lixega.ecommerce.sdk.core.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,9 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CredentialsResponse {
+public class CredentialsDTO {
 
+    private Long id;
     private String email;
     private String phoneNumber;
     private Instant createdAt;

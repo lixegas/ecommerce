@@ -1,11 +1,7 @@
-package com.lixega.ecommerce.user.model.entity.dto.request;
+package com.lixega.ecommerce.sdk.core.model.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
@@ -22,3 +18,4 @@ public class UserDto {
     private String phoneNumber;
     private Instant createdAt;
 }
+

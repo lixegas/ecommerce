@@ -1,7 +1,7 @@
 package com.lixega.ecommerce.user.controller;
 
 
-import com.lixega.ecommerce.user.model.entity.dto.request.UserDto;
+import com.lixega.ecommerce.sdk.core.model.dto.UserDto;
 import com.lixega.ecommerce.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

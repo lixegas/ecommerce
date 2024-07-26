@@ -1,7 +1,8 @@
 package com.lixega.ecommerce.auth.service;
 
-import com.lixega.ecommerce.auth.model.dto.response.CredentialsResponse;
+import com.lixega.ecommerce.sdk.core.model.dto.CredentialsDTO;
 import com.lixega.ecommerce.auth.model.entity.UserCredentials;
+import com.lixega.ecommerce.auth.model.mapper.CredentialsMapper;
 import com.lixega.ecommerce.auth.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-
+    private final CredentialsMapper credentialsMapper;
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserCredentials> userCredentialsOptional = userRepository.findByEmail(email);
@@ -30,14 +31,8 @@ public class UserService implements UserDetailsService {
         return new User(userCredentialsAccount.getEmail(), userCredentialsAccount.getPassword(), new ArrayList<>());
     }
 
-    public CredentialsResponse getCredentialsById(Long id){
+    public CredentialsDTO getCredentialsById(Long id){
         UserCredentials user = userRepository.getUserById(id);
-        CredentialsResponse credentials = new CredentialsResponse();
-
-        credentials.setEmail(user.getEmail());
-        credentials.setPhoneNumber(user.getPhoneNumber());
-        credentials.setCreatedAt(user.getCreatedAt());
-
-        return credentials;
+        return credentialsMapper.mapToDto(user);
     }
 }
