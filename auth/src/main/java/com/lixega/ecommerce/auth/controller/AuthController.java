@@ -1,16 +1,12 @@
 package com.lixega.ecommerce.auth.controller;
 
 import com.lixega.ecommerce.auth.model.dto.request.LoginRequest;
-import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequest;
 import com.lixega.ecommerce.auth.model.dto.request.UserRegistrationRequest;
-import com.lixega.ecommerce.auth.model.dto.request.ValidationTokenRequest;
 import com.lixega.ecommerce.auth.model.dto.response.LoginResponse;
-import com.lixega.ecommerce.auth.model.dto.response.RefreshResponse;
 import com.lixega.ecommerce.auth.model.dto.response.UserRegistrationResponse;
-import com.lixega.ecommerce.auth.model.dto.response.ValidationTokenResponse;
 import com.lixega.ecommerce.auth.service.AuthService;
-import com.lixega.ecommerce.auth.service.RefreshTokenService;
-import com.lixega.ecommerce.auth.service.ValidationTokenService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +16,10 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class AuthController {
     private final AuthService authService;
-    private final RefreshTokenService refreshTokenService;
-    private final ValidationTokenService validationTokenService;
 
     @PostMapping("login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-        return authService.login(loginRequest);
+    public LoginResponse login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
+        return authService.login(loginRequest, request.getRemoteAddr(), response);
     }
 
     @PostMapping("register")
@@ -33,13 +27,8 @@ public class AuthController {
         return authService.register(request);
     }
 
-    @PostMapping("refresh")
-    public RefreshResponse refresh(@RequestBody RefreshTokenRequest refreshTokenRequestDTO){
-        return refreshTokenService.refreshToken(refreshTokenRequestDTO);
-    }
-
-    @PostMapping("validate")
-    public ValidationTokenResponse validate(@RequestBody ValidationTokenRequest request){
-        return validationTokenService.validateToken(request);
+    @GetMapping("refresh")
+    public void refresh(HttpServletRequest request, HttpServletResponse response){
+        authService.refresh(request, response);
     }
 }

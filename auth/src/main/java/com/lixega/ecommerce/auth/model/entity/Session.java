@@ -1,32 +1,28 @@
 package com.lixega.ecommerce.auth.model.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.Instant;
 
 @Entity
-@Table(name = "refresh_token")
+@Table(name = "session")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
-public class RefreshToken {
-
+public class Session {
     @Id
-    private String token;
+    @Column(name = "session_uuid")
+    private String sessionUuid;
 
     @Column(name = "expiration_date", nullable = false)
     private Instant expiryDate;
 
-    private boolean valid;
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "access_uuid", nullable = false)
     private Access access;
 }

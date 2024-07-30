@@ -37,7 +37,9 @@ public class UserCredentials {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "userCredentials", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<RefreshToken> refreshTokens = new ArrayList<>();
+    private List<Access> accesses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userCredentials", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UserRole> userRoles = new ArrayList<>();
 }

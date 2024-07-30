@@ -1,11 +1,11 @@
 package com.lixega.ecommerce.auth.service;
 
 import com.lixega.ecommerce.auth.config.JWTUtils;
-import com.lixega.ecommerce.auth.model.dto.response.RefreshResponse;
-import com.lixega.ecommerce.auth.model.entity.UserCredentials;
+import com.lixega.ecommerce.auth.model.entity.Access;
 import com.lixega.ecommerce.auth.model.entity.RefreshToken;
-import com.lixega.ecommerce.auth.model.dto.request.RefreshTokenRequest;
 import com.lixega.ecommerce.auth.model.dto.response.LoginResponse;
+import com.lixega.ecommerce.auth.model.entity.Session;
+import com.lixega.ecommerce.auth.repository.AccessRepository;
 import com.lixega.ecommerce.auth.repository.UserRepository;
 import com.lixega.ecommerce.auth.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,60 +15,57 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
-    @Value("${security.refresh-token.expiration-millis}")
-    private Long jwtExpirationInMillis;
+    private final SessionService sessionService;
 
-    private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final JWTUtils jwtUtils;
+    private final AccessRepository accessRepository;
 
-    public RefreshToken createRefreshToken(String email, int daysToExpire) {
-        Optional<UserCredentials> credentialsOptional = userRepository.findByEmail(email);
-        if (credentialsOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user does not exist.");
-        }
+    private long refreshTokenTtlSeconds = 2592000L;
 
-        RefreshToken refreshToken = RefreshToken.builder()
-                .userCredentials(credentialsOptional.get())
-                .token(UUID.randomUUID().toString())
-                .expiryDate(Instant.now().plus(daysToExpire, ChronoUnit.DAYS))
-                .build();
+    protected RefreshToken createRefreshToken(Access access) {
+        RefreshToken refreshToken = buildRefreshToken(access);
 
         return refreshTokenRepository.save(refreshToken);
     }
 
+    private RefreshToken buildRefreshToken(Access access) {
+        String refreshToken = UUID.randomUUID().toString();
+        RefreshToken.RefreshTokenBuilder refreshTokenBuilder = RefreshToken.builder()
+                .token(refreshToken)
+                .expiryDate(Instant.now().plusSeconds(refreshTokenTtlSeconds))
+                .valid(true)
+                .access(access);
 
-
-    public Optional<RefreshToken> findByToken(String token) {
-        return refreshTokenRepository.findByToken(token);
+        return refreshTokenBuilder.build();
     }
 
-    public void verifyExpiration(RefreshToken token) {
-        if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
-            String errorMessage = String.format("%s! Red. Please make a new login!", token);
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, errorMessage );
-        }
-    }
-
-    public RefreshResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        Optional<RefreshToken> tokenOptional = findByToken(refreshTokenRequest.getRefreshToken());
-        if (tokenOptional.isEmpty()) {
+    public Session refresh(String token) {
+        Optional<RefreshToken> refreshTokenOptional = refreshTokenRepository.findById(token);
+        if (refreshTokenOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid refresh token provided");
         }
 
-        RefreshToken token = tokenOptional.get();
-        verifyExpiration(token);
+        RefreshToken refreshToken = refreshTokenOptional.get();
+        if (Instant.now().isAfter(refreshToken.getExpiryDate())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token has expired. Please log in again");
+        }
+        if (!refreshToken.isValid()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token has been invalidated. Please log in again");
+        }
 
-        UserCredentials userCredentials = token.getUserCredentials();
-        String accessToken = jwtUtils.generateTokenWithEmail(userCredentials.getEmail());
+        Optional<Access> accessOptional = accessRepository.findByRefreshToken(refreshToken);
+        if (accessOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid access. Please log in again");
+        }
 
-        return new RefreshResponse(accessToken);
+        Access access = accessOptional.get();
+
+        return sessionService.createSession(access);
     }
 }

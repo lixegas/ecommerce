@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class SqlUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     private final CredentialsMapper credentialsMapper;
 
@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
         }
 
         UserCredentials userCredentialsAccount = userCredentialsOptional.get();
-        return new User(userCredentialsAccount.getEmail(), userCredentialsAccount.getPassword(), new ArrayList<>());
+        return new User(Long.toString(userCredentialsAccount.getId()), userCredentialsAccount.getPassword(), new ArrayList<>());
     }
 
     public CredentialsDTO getCredentialsById(Long id){

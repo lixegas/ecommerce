@@ -1,4 +1,4 @@
-package com.lixega.ecommerce.user.client;
+package com.lixega.ecommerce.user.config;
 
 import feign.Logger;
 import feign.Retryer;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserClientConfig {
+public class FeignConfig {
 
     @Bean
     public Logger.Level feignLoggerLevel() {

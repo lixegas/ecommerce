@@ -20,6 +20,7 @@ public class UserRegistrationRequest {
 
     @NotBlank(message = "Email field is mandatory")
     @Email(message = "Email should be valid")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Email should be valid")
     private String email;
 
     @NotBlank(message = "Password field is mandatory")

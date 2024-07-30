@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.time.Instant;
-import java.util.Date;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -34,12 +34,23 @@ public class JWTUtils {
         }
     }
 
-    public String generateTokenWithEmail(String email) {
+    public String generateToken(String subject) {
         return Jwts
                 .builder()
                 .signWith(rsaKeyProperties.privateKey())
                 .issuedAt(Date.from(Instant.now()))
-                .subject(email)
+                .subject(subject)
+                .expiration(Date.from(Instant.now().plusMillis(jwtExpirationMillis)))
+                .compact();
+    }
+
+    public String generateToken(String subject, List<String> roles) {
+        return Jwts
+                .builder()
+                .signWith(rsaKeyProperties.privateKey())
+                .issuedAt(Date.from(Instant.now()))
+                .subject(subject)
+                .claims(Map.of("roles", roles.toString()))
                 .expiration(Date.from(Instant.now().plusMillis(jwtExpirationMillis)))
                 .compact();
     }

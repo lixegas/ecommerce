@@ -1,4 +1,4 @@
-package com.lixega.ecommerce.user.model.entity.dto;
+package com.lixega.ecommerce.user.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
