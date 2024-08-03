@@ -16,12 +16,9 @@ import java.time.Instant;
 @Mapper(imports = Instant.class, componentModel = "spring")
 public interface UserMapper {
 
-
-    // Mappa RegistrationRequest a Credentials
     @Mapping(target = "createdAt", expression = "java(java.time.Instant.now())")
     UserCredentials mapToUser(UserRegistrationRequest request);
 
-    // Mappa Credentials a RegistrationResponse
     @Mapping(source = "createdAt", target = "createdAt")
     UserRegistrationResponse mapToRegistrationResponse(UserCredentials userCredentials);
 
