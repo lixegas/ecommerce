@@ -1,6 +1,5 @@
 package com.lixega.ecommerce.product.controller;
 
-import com.lixega.ecommerce.product.model.entity.Product;
 import com.lixega.ecommerce.product.model.request.ProductCreationRequest;
 import com.lixega.ecommerce.product.model.response.ProductResponse;
 import com.lixega.ecommerce.product.service.ProductService;
@@ -28,7 +27,9 @@ public class ProductController {
     }
 
     @GetMapping("products")
-    public List<ProductResponse> allProducts() {
-        return productService.getAllProducts();
+    public List<ProductResponse> allProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+        return productService.getAllProduct(page, size);
     }
 }

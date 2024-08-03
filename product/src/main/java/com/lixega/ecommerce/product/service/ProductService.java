@@ -8,6 +8,9 @@ import com.lixega.ecommerce.product.model.response.ProductResponse;
 import com.lixega.ecommerce.product.repository.ProductCollectionRepository;
 import com.lixega.ecommerce.product.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -59,12 +62,13 @@ public class ProductService {
         return productMapper.mapToResponse(product,productCollection);
     }
 
+    public List<ProductResponse> getAllProduct(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
 
-    public List<ProductResponse> getAllProducts() {
 
-        List<Product> listProduct = (List<Product>) productRepository.findAll();
+        Page<Product> pageProduct = productRepository.findAll(pageable);
 
-        return listProduct.parallelStream()
+        return pageProduct.stream()
                 .map(product -> {
                     Optional<ProductCollection> productCollectionOptional = productCollectionRepository.findByProductId(product.getId());
                     if (productCollectionOptional.isEmpty()) {
@@ -76,5 +80,4 @@ public class ProductService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
-
 }
