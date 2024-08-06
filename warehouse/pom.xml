@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -8,17 +7,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <groupId>com.lixega.ecommerce</groupId>
-    <artifactId>user</artifactId>
+    <artifactId>warehouse</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>user</name>
-    <description>User service for Lixega's e-commerce</description>
+    <name>warehouse</name>
+    <description>Warehouse service for lixega's ecommerce</description>
 
     <properties>
-        <!-- Java -->
         <java.version>22</java.version>
 
         <!-- Utils -->
@@ -27,22 +25,10 @@
 
         <!-- Sdk -->
         <sdk.version>0.0.1-SNAPSHOT</sdk.version>
-
-        <!-- Spring Cloud -->
-        <org.spring-cloud-openfeign.version>4.1.3</org.spring-cloud-openfeign.version>
-
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <!-- Spring Cloud -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${org.spring-cloud-openfeign.version}</version>
-            </dependency>
-
             <!-- Utils -->
             <dependency>
                 <groupId>org.mapstruct</groupId>
@@ -54,11 +40,6 @@
             <dependency>
                 <groupId>com.lixega.ecommerce</groupId>
                 <artifactId>core</artifactId>
-                <version>${sdk.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lixega.ecommerce</groupId>
-                <artifactId>kafka</artifactId>
                 <version>${sdk.version}</version>
             </dependency>
         </dependencies>
@@ -103,18 +84,8 @@
             <artifactId>core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.lixega.ecommerce</groupId>
-            <artifactId>kafka</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-        </dependency>
-
-        <!-- Spring Cloud -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 
