@@ -1,8 +1,6 @@
 package com.lixega.ecommerce.apigateway.service;
 
 import com.lixega.ecommerce.apigateway.client.AuthClient;
-import com.lixega.ecommerce.sdk.core.model.dto.request.JwtValidationRequest;
-import com.lixega.ecommerce.sdk.core.model.dto.response.JwtValidationResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

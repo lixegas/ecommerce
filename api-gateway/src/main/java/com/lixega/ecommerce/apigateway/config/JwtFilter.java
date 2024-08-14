@@ -1,9 +1,6 @@
 package com.lixega.ecommerce.apigateway.config;
 
-import com.lixega.ecommerce.apigateway.client.AuthClient;
 import com.lixega.ecommerce.apigateway.service.AuthService;
-import com.lixega.ecommerce.sdk.core.model.dto.request.JwtValidationRequest;
-import com.lixega.ecommerce.sdk.core.model.dto.response.JwtValidationResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @Configuration
 @AllArgsConstructor

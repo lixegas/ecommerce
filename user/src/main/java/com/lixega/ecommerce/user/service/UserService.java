@@ -1,27 +1,41 @@
 package com.lixega.ecommerce.user.service;
 
-
-import com.lixega.ecommerce.sdk.core.model.dto.CredentialsDTO;
-import com.lixega.ecommerce.sdk.core.model.dto.UserDto;
-import com.lixega.ecommerce.user.client.UserClient;
-import com.lixega.ecommerce.user.mapper.UserProfileMapper;
+import com.lixega.ecommerce.user.mapper.UserMapper;
+import com.lixega.ecommerce.user.model.dto.UserProfileDTO;
 import com.lixega.ecommerce.user.model.entity.UserProfile;
-import com.lixega.ecommerce.user.repository.UserRepository;
+import com.lixega.ecommerce.user.repository.UserProfileRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final UserClient userClient;
-    private final UserProfileMapper userProfileMapper;
+    private final UserProfileRepository userProfileRepository;
+    private final UserMapper userMapper;
 
-    public UserDto getUserById(Long id) {
-        CredentialsDTO userFromClient = userClient.getUserById(id);
-        UserProfile userProfile = userRepository.getReferenceById(id);
+    public UserProfileDTO createUserProfile(String userId){
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUserId(userId);
+        userProfile.setEnabled(true);
 
-        return userProfileMapper.mapToDTO(userProfile,userFromClient);
+        UserProfile savedUserProfile = userProfileRepository.save(userProfile);
+
+        return userMapper.mapToUserProfileDTO(savedUserProfile);
+    }
+
+    public UserProfileDTO getUserProfileById(String userId){
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findByUserId(userId);
+        if(userProfileOptional.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, STR."Can't find user preferences associated to id \{userId}");
+        }
+
+        UserProfile userPreferences = userProfileOptional.get();
+
+        return userMapper.mapToUserProfileDTO(userPreferences);
     }
 }

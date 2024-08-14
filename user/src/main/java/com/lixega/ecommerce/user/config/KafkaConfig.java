@@ -1,7 +1,6 @@
 package com.lixega.ecommerce.user.config;
 
-import com.lixega.ecommerce.sdk.core.model.dto.request.UserProfileCreationRequest;
-import com.lixega.ecommerce.user.service.UserProfileService;
+import com.lixega.ecommerce.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,8 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 @AllArgsConstructor
 public class KafkaConfig {
-    private final UserProfileService userProfileService;
+
+    private final UserService userService;
 
     @Bean
     public NewTopic topic(){
@@ -22,8 +22,9 @@ public class KafkaConfig {
                 .build();
     }
 
-    @KafkaListener(id = "userProfileCreation", topics = "ecommerce-user-creation")
-    public void listenForUserProfileCreation(UserProfileCreationRequest request){
-        userProfileService.createUserProfile(request);
+    @KafkaListener(id = "userProfileCreation", topics = "ecommerce-user-registration")
+    public void listenForUserProfileCreation(String userId){
+        System.out.println(userId);
+        userService.createUserProfile(userId);
     }
 }
