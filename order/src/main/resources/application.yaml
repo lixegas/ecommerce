@@ -1,0 +1,33 @@
+server:
+  port: 8093
+  error:
+    include-stacktrace: never
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: order
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  cloud:
+    openfeign:
+      client:
+        config:
+          payment-service:
+            url: http://localhost:8074/api/v1/payment
+          warehouse-service:
+            url: http://localhost:8096/api/v1/warehouse
+
+
+
