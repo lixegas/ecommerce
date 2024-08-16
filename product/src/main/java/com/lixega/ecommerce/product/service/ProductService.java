@@ -29,6 +29,7 @@ public class ProductService {
     private final ProductMapper productMapper;
 
 
+
     public ProductResponse createProduct(ProductCreationRequest request) {
 
         Product product = productMapper.mapToProduct(request);
@@ -36,6 +37,7 @@ public class ProductService {
 
         ProductCollection productCollection = productMapper.mapToProductCollection(request,product);
         productCollectionRepository.save(productCollection);
+
 
         return getProductResponse(product, productCollection);
     }

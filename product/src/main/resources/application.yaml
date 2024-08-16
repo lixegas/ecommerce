@@ -7,7 +7,7 @@ server:
 
 spring:
   application:
-    name: auth
+    name: product
   profiles:
     active: dev
   datasource:

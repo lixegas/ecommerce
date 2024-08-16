@@ -29,4 +29,7 @@ public class Product {
     @Column(name = "create_At")
     private Instant createdAt;
     private String slug;
+
+    @Column(name = "warehouse_id")
+    private Long warehouseId;
 }

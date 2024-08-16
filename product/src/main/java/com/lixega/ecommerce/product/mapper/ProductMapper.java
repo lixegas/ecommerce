@@ -9,8 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Named("ProductMapper")
 @Mapper(imports = Instant.class, componentModel = "spring")
