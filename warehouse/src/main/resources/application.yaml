@@ -1,5 +1,5 @@
 server:
-  port: 3357
+  port: 8096
   error:
     include-stacktrace: never
     include-message: always
@@ -19,4 +19,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-
+  cloud:
+    openfeign:
+      client:
+        config:
+          warehouse-service:
+            url: http://localhost:8090/api/v1/order
