@@ -18,4 +18,3 @@ public class UserDto {
     private String phoneNumber;
     private Instant createdAt;
 }
-
