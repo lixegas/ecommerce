@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url:
+    username:
+    password:
+
+  cloud:
+    aws:
+      s3:
+        endpoint:
+        region:
+        access-key:
+        secret-key:
