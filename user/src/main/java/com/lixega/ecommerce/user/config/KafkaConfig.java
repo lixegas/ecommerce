@@ -16,7 +16,7 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic topic(){
-        return TopicBuilder.name("ecommerce-user-creation")
+        return TopicBuilder.name("ecommerce-user-registration")
                 .partitions(10)
                 .replicas(1)
                 .build();
