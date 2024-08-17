@@ -19,9 +19,3 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-  cloud:
-    openfeign:
-      client:
-        config:
-          warehouse-service:
-            url: http://localhost:8090/api/v1/order

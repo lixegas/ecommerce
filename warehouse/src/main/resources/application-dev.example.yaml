@@ -3,3 +3,10 @@ spring:
     url:
     username:
     password:
+
+  cloud:
+    openfeign:
+      client:
+        config:
+          warehouse-service:
+            url:
