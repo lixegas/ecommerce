@@ -1,0 +1,21 @@
+server:
+  port: 8060
+  error:
+    include-stacktrace: never
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: shipment
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+

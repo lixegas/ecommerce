@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url:
+    username:
+    password:
+
+  cloud:
+    openfeign:
+      client:
+        config:
+          shipment-client:
+            url:
