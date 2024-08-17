@@ -1,6 +1,5 @@
 package com.lixega.ecommerce.apigateway.service;
 
-import com.lixega.ecommerce.apigateway.client.AuthClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
