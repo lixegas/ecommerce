@@ -2,6 +2,7 @@ package com.lixega.ecommerce.order.service;
 
 
 import com.lixega.ecommerce.order.client.PaymentClient;
+import com.lixega.ecommerce.order.client.ShipmentClient;
 import com.lixega.ecommerce.order.client.WarehouseClient;
 import com.lixega.ecommerce.order.mapper.OrderMapper;
 import com.lixega.ecommerce.order.model.dto.OrderDTO;
@@ -11,6 +12,8 @@ import com.lixega.ecommerce.order.model.enumeration.OrderStatus;
 import com.lixega.ecommerce.order.model.request.OrderRequest;
 import com.lixega.ecommerce.order.repository.OrderItemRepository;
 import com.lixega.ecommerce.order.repository.OrderRepository;
+import com.lixega.ecommerce.sdk.core.model.dto.ShipmentDto;
+import com.lixega.ecommerce.sdk.core.model.enumeration.ShipmentStatus;
 import com.lixega.ecommerce.sdk.core.model.response.PaymentResponse;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -29,6 +32,8 @@ public class OrderService {
     private final WarehouseClient warehouseClient;
     private final PaymentClient paymentClient;
     private final OrderMapper orderMapper;
+    private final ShipmentClient shipmentClient;
+
 
 
     @Transactional
@@ -62,7 +67,13 @@ public class OrderService {
         }
 
         order.setStatus(OrderStatus.CONFIRMED);
+        ShipmentDto shipmentDto = new ShipmentDto();
+        shipmentDto.setOrder(order.getId());
+        shipmentDto.setShipmentStatus(ShipmentStatus.PENDING);
+        ShipmentDto shipmentCreationRequest = shipmentClient.createShipment(shipmentDto);
 
-        return orderMapper.toOrderDTO(order);
+
+
+        return orderMapper.toOrderDTO(order, shipmentDto, shipmentCreationRequest);
     }
 }

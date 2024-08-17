@@ -1,5 +1,5 @@
 server:
-  port: 8093
+  port: 8094
   error:
     include-stacktrace: never
     include-message: always
@@ -28,6 +28,8 @@ spring:
             url: http://localhost:8074/api/v1/payment
           warehouse-service:
             url: http://localhost:8096/api/v1/warehouse
+          shipment-service:
+            url: http://localhost:8060/api/v1/shipment
 
 
 
