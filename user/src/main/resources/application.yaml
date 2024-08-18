@@ -22,18 +22,3 @@ spring:
     consumer:
       properties:
         spring.json.trusted.packages: "*"
-  cloud:
-    openfeign:
-      client:
-        config:
-          user-client:
-            url: http://localhost:2504/api/v1/credentials
-
-
-
-security:
-  refresh-token:
-    expiration-millis: 600000
-  jwt:
-    expiration-millis: 300000
-

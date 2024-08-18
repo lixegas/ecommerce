@@ -26,11 +26,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductCollectionRepository productCollectionRepository;
+
     private final ProductMapper productMapper;
 
 
     public ProductResponse createProduct(ProductCreationRequest request) {
-
         Product product = productMapper.mapToProduct(request);
         product = productRepository.save(product);
 
@@ -53,7 +53,6 @@ public class ProductService {
 
         Product product = productOptional.get();
 
-
         Optional<ProductCollection> productCollectionOptional = productCollectionRepository.findByProductId(id);
         if(productCollectionOptional.isEmpty()){ throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
 
@@ -64,7 +63,6 @@ public class ProductService {
 
     public List<ProductResponse> getAllProduct(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-
 
         Page<Product> pageProduct = productRepository.findAll(pageable);
 
@@ -78,6 +76,6 @@ public class ProductService {
                     return productMapper.mapToResponse(product, productCollection);
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

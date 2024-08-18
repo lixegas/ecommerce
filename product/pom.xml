@@ -24,9 +24,6 @@
         <org.mapstruct.version>1.6.0.Beta1</org.mapstruct.version>
         <org.lombok-mapstruct-binding.version>0.2.0</org.lombok-mapstruct-binding.version>
 
-        <!-- Spring Cloud Version -->
-        <spring-cloud.version>2022.0.3</spring-cloud.version>
-
         <!-- Sdk -->
         <sdk.version>0.0.1-SNAPSHOT</sdk.version>
     </properties>
@@ -41,14 +38,12 @@
                 <version>${org.mapstruct.version}</version>
             </dependency>
 
-            <!-- Spring Cloud -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${org.spring-cloud-openfeign.version}</version>
-            </dependency>
-
             <!-- Sdk -->
+            <dependency>
+                <groupId>com.lixega.ecommerce</groupId>
+                <artifactId>core</artifactId>
+                <version>${sdk.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.lixega.ecommerce</groupId>
                 <artifactId>oauth-2</artifactId>
@@ -61,15 +56,15 @@
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- MongoDB -->
@@ -86,6 +81,10 @@
         </dependency>
 
         <!-- Sdk -->
+        <dependency>
+            <groupId>com.lixega.ecommerce</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.lixega.ecommerce</groupId>
             <artifactId>oauth-2</artifactId>

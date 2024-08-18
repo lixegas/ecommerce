@@ -24,7 +24,6 @@ public class KafkaConfig {
 
     @KafkaListener(id = "userProfileCreation", topics = "ecommerce-user-registration")
     public void listenForUserProfileCreation(String userId){
-        System.out.println(userId);
         userService.createUserProfile(userId);
     }
 }

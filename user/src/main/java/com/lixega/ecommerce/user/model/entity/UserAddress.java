@@ -1,5 +1,6 @@
 package com.lixega.ecommerce.user.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class UserAddress {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private UserProfile userProfile;
 
     private String recipientName;
@@ -27,7 +29,4 @@ public class UserAddress {
     private String state;
     private String zipCode;
     private String country;
-
-    private boolean primary;
-    private boolean enabled;
 }
