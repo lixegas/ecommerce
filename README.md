@@ -1,7 +1,7 @@
 # Ecommerce Project
 This GitHub repo contains the source code for an e-commerce service distributed on a microservice architecture.
 #### Built with 
-[![My Skills](https://skillicons.dev/icons?i=java,spring,kafka,mysql,mongodb,redis&theme=light)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=java,spring,kafka,mysql,mongodb,redis,aws,docker&theme=light)](https://skillicons.dev)
 
 # General Architecture
 ![General Architecture(off)](https://github.com/user-attachments/assets/10dd0181-6339-454f-af21-1a518068072e)
